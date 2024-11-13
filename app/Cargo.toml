@@ -1,0 +1,16 @@
+[package]
+name = "dice"
+version = "0.1.0"
+authors = ["eilseq <tools@eilseq.com>"]
+edition = "2018"
+
+[lib]
+name = "dice"
+crate-type = ["cdylib"]
+
+[dependencies]
+median = { git = "https://github.com/Cycling74/median" }
+
+[profile.release]
+lto = true
+panic = "abort"
