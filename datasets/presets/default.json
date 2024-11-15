@@ -1,0 +1,212 @@
+{
+  "max_polyphony": 2,
+  "random_sequence_configs": [
+    {
+      "label": "BD",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 1, 0], "weight": 5 },
+        { "triggers": [0, 1, 0, 0], "weight": 5 },
+        { "triggers": [1, 0, 0, 0], "weight": 1000 },
+        { "triggers": [1, 0, 1, 0], "weight": 60 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "SD",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 600 },
+        { "triggers": [0, 0, 0, 1], "weight": 100 },
+        { "triggers": [0, 0, 0, 1], "weight": 100 },
+        { "triggers": [0, 0, 1, 0], "weight": 50 },
+        { "triggers": [0, 1, 0, 0], "weight": 200 },
+        { "triggers": [0, 1, 0, 1], "weight": 200 },
+        { "triggers": [0, 1, 1, 0], "weight": 5 },
+        { "triggers": [1, 0, 0, 0], "weight": 10 },
+        { "triggers": [1, 0, 0, 1], "weight": 7 },
+        { "triggers": [1, 0, 1, 0], "weight": 6 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "RS",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 600 },
+        { "triggers": [0, 0, 0, 1], "weight": 100 },
+        { "triggers": [0, 0, 1, 0], "weight": 50 },
+        { "triggers": [0, 1, 0, 0], "weight": 200 },
+        { "triggers": [1, 0, 0, 0], "weight": 10 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "CP",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 800 },
+        { "triggers": [0, 0, 0, 1], "weight": 50 },
+        { "triggers": [0, 0, 1, 0], "weight": 100 },
+        { "triggers": [0, 1, 0, 0], "weight": 50 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "BT",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 800 },
+        { "triggers": [0, 0, 0, 1], "weight": 100 },
+        { "triggers": [0, 0, 0, 1], "weight": 100 },
+        { "triggers": [0, 0, 1, 0], "weight": 100 },
+        { "triggers": [0, 1, 0, 0], "weight": 100 },
+        { "triggers": [0, 1, 0, 1], "weight": 100 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "LT",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 800 },
+        { "triggers": [0, 0, 0, 1], "weight": 100 },
+        { "triggers": [0, 0, 0, 1], "weight": 100 },
+        { "triggers": [0, 0, 1, 0], "weight": 100 },
+        { "triggers": [0, 1, 0, 0], "weight": 100 },
+        { "triggers": [0, 1, 0, 1], "weight": 100 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "MT",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 800 },
+        { "triggers": [0, 0, 0, 1], "weight": 100 },
+        { "triggers": [0, 0, 0, 1], "weight": 100 },
+        { "triggers": [0, 0, 1, 0], "weight": 100 },
+        { "triggers": [0, 1, 0, 0], "weight": 100 },
+        { "triggers": [0, 1, 0, 1], "weight": 100 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "HT",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 800 },
+        { "triggers": [0, 0, 0, 1], "weight": 100 },
+        { "triggers": [0, 0, 0, 1], "weight": 100 },
+        { "triggers": [0, 0, 1, 0], "weight": 100 },
+        { "triggers": [0, 1, 0, 0], "weight": 100 },
+        { "triggers": [0, 1, 0, 1], "weight": 100 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "CH",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 2 },
+        { "triggers": [0, 0, 0, 1], "weight": 1 },
+        { "triggers": [0, 0, 1, 0], "weight": 1 },
+        { "triggers": [0, 0, 1, 1], "weight": 1 },
+        { "triggers": [0, 1, 0, 0], "weight": 1 },
+        { "triggers": [0, 1, 0, 1], "weight": 1 },
+        { "triggers": [0, 1, 1, 0], "weight": 1 },
+        { "triggers": [0, 1, 1, 1], "weight": 1 },
+        { "triggers": [1, 0, 0, 0], "weight": 1 },
+        { "triggers": [1, 0, 0, 1], "weight": 1 },
+        { "triggers": [1, 0, 1, 0], "weight": 1 },
+        { "triggers": [1, 0, 1, 1], "weight": 1 },
+        { "triggers": [1, 1, 0, 0], "weight": 1 },
+        { "triggers": [1, 1, 0, 1], "weight": 1 },
+        { "triggers": [1, 1, 1, 0], "weight": 1 },
+        { "triggers": [1, 1, 1, 1], "weight": 1 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "OH",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 2 },
+        { "triggers": [0, 0, 0, 1], "weight": 1 },
+        { "triggers": [0, 0, 1, 0], "weight": 1 },
+        { "triggers": [0, 0, 1, 1], "weight": 1 },
+        { "triggers": [0, 1, 0, 0], "weight": 1 },
+        { "triggers": [0, 1, 0, 1], "weight": 1 },
+        { "triggers": [0, 1, 1, 0], "weight": 1 },
+        { "triggers": [0, 1, 1, 1], "weight": 1 },
+        { "triggers": [1, 0, 0, 0], "weight": 1 },
+        { "triggers": [1, 0, 0, 1], "weight": 1 },
+        { "triggers": [1, 0, 1, 0], "weight": 1 },
+        { "triggers": [1, 0, 1, 1], "weight": 1 },
+        { "triggers": [1, 1, 0, 0], "weight": 1 },
+        { "triggers": [1, 1, 0, 1], "weight": 1 },
+        { "triggers": [1, 1, 1, 0], "weight": 1 },
+        { "triggers": [1, 1, 1, 1], "weight": 1 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "CY",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 6 },
+        { "triggers": [0, 0, 0, 1], "weight": 1 },
+        { "triggers": [0, 0, 1, 0], "weight": 1 },
+        { "triggers": [0, 1, 0, 0], "weight": 1 },
+        { "triggers": [0, 1, 0, 1], "weight": 1 },
+        { "triggers": [1, 0, 0, 0], "weight": 1 },
+        { "triggers": [1, 0, 0, 1], "weight": 1 },
+        { "triggers": [1, 0, 1, 0], "weight": 1 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "CB",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 6 },
+        { "triggers": [0, 0, 0, 1], "weight": 1 },
+        { "triggers": [0, 0, 1, 0], "weight": 1 },
+        { "triggers": [0, 1, 0, 0], "weight": 1 },
+        { "triggers": [0, 1, 0, 1], "weight": 1 },
+        { "triggers": [1, 0, 0, 0], "weight": 1 },
+        { "triggers": [1, 0, 0, 1], "weight": 1 },
+        { "triggers": [1, 0, 1, 0], "weight": 1 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "SAMPLE1",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 100 },
+        { "triggers": [0, 0, 0, 1], "weight": 1 },
+        { "triggers": [0, 0, 1, 0], "weight": 1 },
+        { "triggers": [0, 1, 0, 0], "weight": 1 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "SAMPLE2",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 100 },
+        { "triggers": [0, 0, 0, 1], "weight": 1 },
+        { "triggers": [0, 0, 1, 0], "weight": 1 },
+        { "triggers": [0, 1, 0, 0], "weight": 1 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "SAMPLE3",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 100 },
+        { "triggers": [0, 0, 0, 1], "weight": 1 },
+        { "triggers": [0, 0, 1, 0], "weight": 1 },
+        { "triggers": [0, 1, 0, 0], "weight": 1 }
+      ],
+      "length_in_clusters": 4
+    },
+    {
+      "label": "SAMPLE4",
+      "weighted_clusters": [
+        { "triggers": [0, 0, 0, 0], "weight": 100 },
+        { "triggers": [0, 0, 0, 1], "weight": 1 },
+        { "triggers": [0, 0, 1, 0], "weight": 1 },
+        { "triggers": [0, 1, 0, 0], "weight": 1 }
+      ],
+      "length_in_clusters": 4
+    }
+  ]
+}
