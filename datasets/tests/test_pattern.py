@@ -1,7 +1,6 @@
 import pytest
 
-from pattern import Pattern, RandomPatternConfig
-from sequence import RandomSequenceConfig, WeightedCluster
+from dice_datasets import Pattern, RandomPatternConfig, RandomSequenceConfig, WeightedCluster
 
 
 @pytest.fixture

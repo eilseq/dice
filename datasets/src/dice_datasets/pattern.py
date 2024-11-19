@@ -5,7 +5,7 @@ import seaborn as sns
 import torch
 
 from dataclasses import dataclass
-from sequence import RandomSequenceConfig, Sequence
+from .sequence import RandomSequenceConfig, Sequence
 from typing import List
 
 
