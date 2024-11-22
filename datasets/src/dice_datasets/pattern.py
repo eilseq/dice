@@ -1,11 +1,8 @@
 import json
-import matplotlib.pyplot as plt
-import pandas as pd
-import seaborn as sns
 import torch
 
-from dataclasses import dataclass
 from .sequence import RandomSequenceConfig, Sequence
+from dataclasses import dataclass
 from typing import List
 
 
@@ -45,6 +42,9 @@ class Pattern:
         # Returns the triggers of pattern into one matrix
         return [sequence.get_triggers() for sequence in self.sequences]
 
+    def get_labels(self):
+        return [sequence.label for sequence in self.sequences]
+
     def get_tensor(self):
         # Returns the triggers of sequence into a 2D tensor
         tensors = [sequence.get_tensor() for sequence in self.sequences]
@@ -62,12 +62,6 @@ class Pattern:
             return False
 
         return True
-
-    def visualize(self):
-        df = pd.DataFrame(self.triggers)
-        plt.figure(figsize=(9, 6))
-        sns.heatmap(df.T, cmap="GnBu", cbar=False)
-        plt.show()
 
     @staticmethod
     def create_random(config: RandomPatternConfig):

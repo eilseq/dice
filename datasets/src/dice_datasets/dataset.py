@@ -4,13 +4,16 @@ from typing import List
 
 
 class PatternDataset(Dataset):
+    patterns: List[Pattern]
+
     def __init__(self, patterns: List[Pattern]):
-        self.pattern_tensors = [
-            pattern.get_tensor() for pattern in patterns
-        ]
+        self.patterns = patterns
 
     def __len__(self):
         return len(self.patterns)
 
-    def __getitem__(self, idx):
-        return self.pattern_tensors[idx]
+    def __getitem__(self, idx: int):
+        return self.patterns[idx].get_tensor()
+
+    def get_pattern(self, idx: int):
+        return self.patterns[idx]
