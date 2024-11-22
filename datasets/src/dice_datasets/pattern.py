@@ -13,7 +13,7 @@ from typing import List
 class RandomPatternConfig:
     random_sequence_configs: List[RandomSequenceConfig]
     max_polyphony: int
-    # TODO: length_in_steps
+    max_num_events_with_full_polyphony: int
 
     @staticmethod
     def from_dictionary(dict: dict):
@@ -26,6 +26,7 @@ class RandomPatternConfig:
 
         return RandomPatternConfig(
             max_polyphony=dict['max_polyphony'],
+            max_num_events_with_full_polyphony=dict['max_num_events_with_full_polyphony'],
             random_sequence_configs=random_sequence_configs
         )
 
@@ -49,10 +50,18 @@ class Pattern:
         tensors = [sequence.get_tensor() for sequence in self.sequences]
         return torch.stack(tensors, dim=0)
 
-    def meet_polyphony_requirements(self, max_polyphony: int):
-        # polyphony should be limited to a defined maximum
+    def meet_polyphony_requirements(self, max_polyphony: int, max_num_events_with_full_polyphony: int):
         polyphony = torch.sum(self.get_tensor(), dim=0)
-        return torch.max(polyphony) <= max_polyphony
+
+        # polyphony should be limited to a defined maximum
+        if torch.max(polyphony) > max_polyphony:
+            return False
+
+        # and said maximum should be reached for a limited number ot times
+        if torch.sum(torch.floor(polyphony/max_polyphony)) > max_num_events_with_full_polyphony:
+            return False
+
+        return True
 
     def visualize(self):
         df = pd.DataFrame(self.triggers)
@@ -64,7 +73,7 @@ class Pattern:
     def create_random(config: RandomPatternConfig):
         pattern = Pattern._create_random_candidate(config)
 
-        while not pattern.meet_polyphony_requirements(config.max_polyphony):
+        while not pattern.meet_polyphony_requirements(config.max_polyphony, config.max_num_events_with_full_polyphony):
             pattern = Pattern._create_random_candidate(config)
 
         return pattern

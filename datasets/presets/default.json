@@ -1,5 +1,6 @@
 {
-  "max_polyphony": 2,
+  "max_polyphony": 3,
+  "max_num_events_with_full_polyphony": 2,
   "random_sequence_configs": [
     {
       "label": "BD",
