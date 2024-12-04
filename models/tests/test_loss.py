@@ -31,24 +31,47 @@ def ones_and_zeros_random_pattern_config():
     )
 
 
-def test_valid_target_with_no_penalty(ones_and_zeros_random_pattern_config):
+def test_MSE_valid_target_with_no_penalty(ones_and_zeros_random_pattern_config):
     pattern = Pattern.create_random(ones_and_zeros_random_pattern_config)
     tensor = pattern.get_tensor()
 
     mse_loss = MSELossWithPolyphonyRequirementsPenalty(
         config=ones_and_zeros_random_pattern_config
     )
-    loss = mse_loss.forward(tensor, tensor, penalty_factor=10)
+    loss = mse_loss(tensor, tensor, penalty_factor=10)
 
     assert loss == 0
 
 
-def test_invalid_target_with_penalty(ones_and_zeros_random_pattern_config):
+def test_MSE_invalid_target_with_penalty(ones_and_zeros_random_pattern_config):
     tensor = torch.ones(1, 1, 16, 16, dtype=torch.float32)
 
     mse_loss = MSELossWithPolyphonyRequirementsPenalty(
         config=ones_and_zeros_random_pattern_config
     )
-    loss = mse_loss.forward(tensor, tensor, penalty_factor=10)
+    loss = mse_loss(tensor, tensor, penalty_factor=10)
+
+    assert loss == 0
+
+
+def test_L1_valid_target_with_no_penalty(ones_and_zeros_random_pattern_config):
+    pattern = Pattern.create_random(ones_and_zeros_random_pattern_config)
+    tensor = pattern.get_tensor()
+
+    mse_loss = L1LossWithPolyphonyRequirementsPenalty(
+        config=ones_and_zeros_random_pattern_config
+    )
+    loss = mse_loss(tensor, tensor, penalty_factor=10)
+
+    assert loss == 0
+
+
+def test_L1_invalid_target_with_penalty(ones_and_zeros_random_pattern_config):
+    tensor = torch.ones(1, 1, 16, 16, dtype=torch.float32)
+
+    mse_loss = L1LossWithPolyphonyRequirementsPenalty(
+        config=ones_and_zeros_random_pattern_config
+    )
+    loss = mse_loss(tensor, tensor, penalty_factor=10)
 
     assert loss == 0
