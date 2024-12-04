@@ -3,6 +3,7 @@ import torch
 
 from .sequence import RandomSequenceConfig, Sequence
 from dataclasses import dataclass
+from torch import Tensor
 from typing import List
 
 
@@ -50,8 +51,16 @@ class Pattern:
         tensors = [sequence.get_tensor() for sequence in self.sequences]
         return torch.stack(tensors, dim=0)
 
-    def meet_polyphony_requirements(self, max_polyphony: int, max_num_events_with_full_polyphony: int):
-        polyphony = torch.sum(self.get_tensor(), dim=0)
+    def valid_polyphony_requirements(self, max_polyphony: int, max_num_events_with_full_polyphony: int):
+        return Pattern.tensor_valid_polyphony_requirements(
+            self.get_tensor(),
+            max_polyphony=max_polyphony,
+            max_num_events_with_full_polyphony=max_num_events_with_full_polyphony
+        )
+
+    @staticmethod
+    def tensor_valid_polyphony_requirements(pattern_tensor: Tensor, max_polyphony: int, max_num_events_with_full_polyphony: int):
+        polyphony = torch.sum(pattern_tensor, dim=0)
 
         # polyphony should be limited to a defined maximum
         if torch.max(polyphony) > max_polyphony:
@@ -67,7 +76,7 @@ class Pattern:
     def create_random(config: RandomPatternConfig):
         pattern = Pattern._create_random_candidate(config)
 
-        while not pattern.meet_polyphony_requirements(config.max_polyphony, config.max_num_events_with_full_polyphony):
+        while not pattern.valid_polyphony_requirements(config.max_polyphony, config.max_num_events_with_full_polyphony):
             pattern = Pattern._create_random_candidate(config)
 
         return pattern

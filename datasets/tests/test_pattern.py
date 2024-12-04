@@ -31,6 +31,6 @@ def ones_and_zeros_random_pattern_config():
 
 def test_random_pattern_polyphony(ones_and_zeros_random_pattern_config):
     pattern = Pattern.create_random(ones_and_zeros_random_pattern_config)
-    assert pattern.meet_polyphony_requirements(
+    assert pattern.valid_polyphony_requirements(
         ones_and_zeros_random_pattern_config.max_polyphony,
         ones_and_zeros_random_pattern_config.max_num_events_with_full_polyphony) == True
