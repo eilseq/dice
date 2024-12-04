@@ -7,8 +7,8 @@ from torch import Tensor
 
 
 class DiceLoss(Enum):
-    MSE_POLYPHONY_PENALTY: 1
-    L1_POLYPHONY_PENALTY: 2
+    MSE_POLYPHONY_PENALTY = 1
+    L1_POLYPHONY_PENALTY = 2
 
 
 class MSELossWithPolyphonyRequirementsPenalty(nn.Module):
