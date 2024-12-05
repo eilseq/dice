@@ -4,8 +4,8 @@ from enum import Enum
 
 
 class DiceArchitecture(Enum):
-    CONVOLUTIONAL_AUTO_ENCODER = 1
-    ATTENTION_UNET = 2
+    CONVOLUTIONAL_AUTO_ENCODER = "conv_auto_enc"
+    ATTENTION_UNET = "att_unet"
 
 
 __all__ = ["DiceArchitecture", "AttentionUNet", "ConvAutoencoder"]
