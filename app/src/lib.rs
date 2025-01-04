@@ -11,22 +11,41 @@ use median::{
     wrapper::{attr_get_tramp, attr_set_tramp, MaxObjWrapped, MaxObjWrapper},
 };
 
+use maplit::hashmap;
+use std::borrow::Cow;
+use tokio;
+use wonnx::{utils::InputTensor, utils::OutputTensor, Session};
+
+const ONNX_MODEL: &[u8] =
+    include_bytes!("../../dist/models/default-att_unet-mse_poly_penalty.onnx");
+
 // Wrap your external in this macro to get the system to register your object and
 // automatically generate trampolines and related functionalities.
 median::external! {
     #[name="dice"]
     pub struct MaxExtern {
-        fvalue: Float64,
+        threshold: Float64,
         list_out: OutList, // Add an outlet field
+        session: Session,
     }
 
     // Implement the MaxObjWrapped trait
     impl MaxObjWrapped<MaxExtern> for MaxExtern {
         // Create an instance of your object, and set up inlets/outlets and clocks
         fn new(builder: &mut dyn MaxWrappedBuilder<Self>) -> Self {
+            let mut session: Option<Session> = None;
+            tokio::runtime::Builder::new_multi_thread()
+                .enable_all()
+                .build()
+                .unwrap()
+                .block_on(async {
+                    session = Session::from_bytes(ONNX_MODEL).await.ok();
+                });
+
             Self {
-                fvalue: Float64::new(0.0),
+                threshold: Float64::new(0.5),
                 list_out: builder.add_list_outlet_with_assist("list outlet"), // Initialize outlet
+                session: session.unwrap(),
             }
         }
 
@@ -34,10 +53,10 @@ median::external! {
         fn class_setup(c: &mut Class<MaxObjWrapper<Self>>) {
             c.add_attribute(
                 AttrBuilder::new_accessors(
-                    "foo",
+                    "threshold",
                     AttrType::Float64,
-                    Self::foo_tramp,
-                    Self::set_foo_tramp,
+                    Self::threshold_tramp,
+                    Self::set_threshold_tramp,
                 )
                 .build()
                 .unwrap(),
@@ -64,14 +83,14 @@ median::external! {
 
         // Float attribute getter trampoline
         #[attr_get_tramp]
-        pub fn foo(&self) -> f64 {
-            self.fvalue.get()
+        pub fn threshold(&self) -> f64 {
+            self.threshold.get()
         }
 
         // Float attribute setter trampoline
         #[attr_set_tramp]
-        pub fn set_foo(&self, v: f64) {
-            self.fvalue.set(v);
+        pub fn set_threshold(&self, v: f64) {
+            self.threshold.set(v);
         }
 
         // List method to process and forward the received list to the outlet
@@ -86,18 +105,44 @@ median::external! {
                 return;
             }
 
-            let mut matrix = [[0.0; 16]; 16];
-            for (i, atom) in atoms.iter().enumerate() {
-                if let Some(_value) = atom.get_value() {
-                    matrix[i / 16][i % 16] = atom.get_float();
-                } else {
-                    post!("Error: Element {} is not a valid float.", i);
-                    return;
-                }
-            }
+            let input: Vec<f32> = atoms.iter().map(|atom| { atom.get_float() as f32 }).collect();
+            let input_map = hashmap! {
+                "input".to_string() => InputTensor::F32(Cow::Owned(input)),
+            };
 
-            post!("Successfully received a 16x16 matrix.");
-            let _ = self.list_out.send(atoms);
+            tokio::runtime::Builder::new_multi_thread()
+                .enable_all()
+                .build()
+                .unwrap()
+                .block_on(async {
+                    if let Some(output_map) = self.session.run(&input_map).await.ok() {
+                        if let Some(output_tensor) = output_map.get("output") {
+                            match output_tensor {
+                                OutputTensor::F32(tensor) => {
+                                    let output = Some(
+                                        tensor
+                                            .to_vec()
+                                            .iter()
+                                            .copied()
+                                            .map(|x| x as f64)
+                                            .map(|x| if x > self.threshold.get() { 1.0 } else { 0.0 })
+                                            .map(Atom::from)
+                                            .collect::<Vec<Atom>>(),
+                                    ).expect("Output not evaluated");
+
+                                    let _ = self.list_out.send(&output);
+                                }
+                                _ => {
+                                    post!("Unexpected tensor type");
+                                }
+                            }
+                        } else {
+                            post!("Missing output tensor");
+                        }
+                    } else {
+                        post!("Session run failed");
+                    }
+                });
         }
     }
 }
