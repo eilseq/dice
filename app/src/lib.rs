@@ -11,10 +11,12 @@ use median::{
     wrapper::{attr_get_tramp, attr_set_tramp, MaxObjWrapped, MaxObjWrapper},
 };
 
+use futures::executor::block_on;
 use maplit::hashmap;
 use std::borrow::Cow;
-use tokio;
 use wonnx::{utils::InputTensor, utils::OutputTensor, Session};
+
+mod utils;
 
 const ONNX_MODEL: &[u8] =
     include_bytes!("../../dist/models/default-att_unet-mse_poly_penalty.onnx");
@@ -34,13 +36,9 @@ median::external! {
         // Create an instance of your object, and set up inlets/outlets and clocks
         fn new(builder: &mut dyn MaxWrappedBuilder<Self>) -> Self {
             let mut session: Option<Session> = None;
-            tokio::runtime::Builder::new_multi_thread()
-                .enable_all()
-                .build()
-                .unwrap()
-                .block_on(async {
-                    session = Session::from_bytes(ONNX_MODEL).await.ok();
-                });
+            block_on(async {
+                session = Session::from_bytes(ONNX_MODEL).await.ok();
+            });
 
             Self {
                 threshold: Float64::new(0.5),
@@ -96,53 +94,63 @@ median::external! {
         // List method to process and forward the received list to the outlet
         #[list]
         pub fn list(&self, atoms: &[Atom]) {
-            let expected_size = 16 * 16;
-            if atoms.len() != expected_size {
-                post!(
-                    "Error: Expected 256 elements (16x16 matrix), but got {} elements.",
-                    atoms.len()
-                );
-                return;
-            }
-
-            let input: Vec<f32> = atoms.iter().map(|atom| { atom.get_float() as f32 }).collect();
-            let input_map = hashmap! {
-                "input".to_string() => InputTensor::F32(Cow::Owned(input)),
+            let coo_input: Vec<usize> = atoms.iter().map(|atom| { atom.get_int() as usize }).collect();
+            let flat_input = match utils::binary_matrix::coo_to_flat(coo_input, 16, 16) {
+                Ok(matrix_flat) => matrix_flat.iter().map(|&x| x as f32).collect(),
+                Err(err) => {
+                    post!("Dice Error: {}", err);
+                    return;
+                }
             };
 
-            tokio::runtime::Builder::new_multi_thread()
-                .enable_all()
-                .build()
-                .unwrap()
-                .block_on(async {
-                    if let Some(output_map) = self.session.run(&input_map).await.ok() {
-                        if let Some(output_tensor) = output_map.get("output") {
-                            match output_tensor {
-                                OutputTensor::F32(tensor) => {
-                                    let output = Some(
-                                        tensor
-                                            .to_vec()
-                                            .iter()
-                                            .copied()
-                                            .map(|x| x as f64)
-                                            .map(|x| if x > self.threshold.get() { 1.0 } else { 0.0 })
-                                            .map(Atom::from)
-                                            .collect::<Vec<Atom>>(),
-                                    ).expect("Output not evaluated");
+            let input_map = hashmap! {
+                "input".to_string() => InputTensor::F32(Cow::Owned(flat_input)),
+            };
 
-                                    let _ = self.list_out.send(&output);
-                                }
-                                _ => {
-                                    post!("Unexpected tensor type");
-                                }
-                            }
-                        } else {
-                            post!("Missing output tensor");
-                        }
-                    } else {
-                        post!("Session run failed");
+            block_on(async {
+                let output_map = match self.session.run(&input_map).await {
+                    Ok(output_map) => output_map,
+                    Err(err) => {
+                        post!("Dice Error: {}", err);
+                        return;
                     }
-                });
+                };
+
+                let output_tensor = match output_map.get("output") {
+                    Some(tensor) => tensor,
+                    None => {
+                        post!("Missing output tensor");
+                        return;
+                    }
+                };
+
+
+                match output_tensor {
+                    OutputTensor::F32(tensor) => {
+                        let flat_output: Vec<usize> = tensor.to_vec().iter()
+                                        .map(|&x| if x > (self.threshold.get() as f32) { 1 } else { 0 })
+                                        .collect();
+
+                        let coo_output = match utils::binary_matrix::flat_to_coo(flat_output, 16, 16) {
+                            Ok(coo_output) => coo_output,
+                            Err(err) => {
+                                post!("Dice Error: {}", err);
+                                return;
+                            }
+                        };
+
+                        let atom_outputs:Vec<Atom> = coo_output.iter()
+                                        .map(|&x| x as isize)
+                                        .map(Atom::from)
+                                        .collect::<Vec<Atom>>();
+
+                        let _ = self.list_out.send(&atom_outputs);
+                    }
+                    _ => {
+                        post!("Unexpected tensor type");
+                    }
+                }
+            });
         }
     }
 }

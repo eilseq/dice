@@ -11,7 +11,7 @@ crate-type = ["cdylib"]
 [dependencies]
 median = { git = "https://github.com/Cycling74/median" }
 wonnx = "0.5.1"
-tokio = { version = "1.42.0", features = ["full"] }
+futures = "0.3.31"
 maplit = "1.0"
 
 [profile.release]
