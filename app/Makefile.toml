@@ -24,4 +24,13 @@ end
 '''
 
 [env]
-MAX_PACKAGE_NAME = "eilseq"
+MAX_PACKAGE_NAME = "dice"
+
+[tasks.dice]
+dependencies = ["package"]
+script_runner = "@shell"
+script = [
+  '''
+    cp "assets/${MAX_PACKAGE_NAME}.maxhelp" "target/${TARGET_TRIPLE}/${PROFILE_DIR}"
+  ''',
+]
