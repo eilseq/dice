@@ -707,12 +707,12 @@ checksum = "3e2e65a1a2e43cfcb47a895c4c8b10d1f4a61097f9f254f183aee60cad9c651d"
 [[package]]
 name = "max-sys"
 version = "0.1.0"
-source = "git+https://github.com/Cycling74/median#168bd8e01971cb263c94c12cabc49d75c461f761"
+source = "git+https://github.com/eilseq/median.git?branch=develop#998201a82cf097934036a4bd625bbd1274838696"
 
 [[package]]
 name = "median"
 version = "0.1.1"
-source = "git+https://github.com/Cycling74/median#168bd8e01971cb263c94c12cabc49d75c461f761"
+source = "git+https://github.com/eilseq/median.git?branch=develop#998201a82cf097934036a4bd625bbd1274838696"
 dependencies = [
  "field-offset",
  "lazy_static",
@@ -728,7 +728,7 @@ dependencies = [
 [[package]]
 name = "median_macros"
 version = "0.1.0"
-source = "git+https://github.com/Cycling74/median#168bd8e01971cb263c94c12cabc49d75c461f761"
+source = "git+https://github.com/eilseq/median.git?branch=develop#998201a82cf097934036a4bd625bbd1274838696"
 dependencies = [
  "proc-macro2",
  "quote",

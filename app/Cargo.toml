@@ -9,7 +9,7 @@ name = "dice"
 crate-type = ["cdylib"]
 
 [dependencies]
-median = { git = "https://github.com/Cycling74/median" }
+median = { git = "https://github.com/eilseq/median.git", branch = "develop" }
 wonnx = "0.5.1"
 futures = "0.3.31"
 maplit = "1.0"
