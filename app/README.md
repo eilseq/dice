@@ -2,5 +2,8 @@
 
 ```
 cargo install cargo-make
-cargo make package
+```
+
+```
+ONNX_MODEL_PATH="path_to_onnx_model" cargo make dice
 ```
