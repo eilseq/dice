@@ -23,7 +23,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 780.0, 107.0, 367.0, 35.0 ],
-					"presentation_linecount" : 2,
 					"text" : "< Intensity or amount of the diffusion noise applied in the system.  Over 0.5 may introduce more randomness/distortion."
 				}
 
@@ -39,7 +38,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 870.0, 180.056818395853043, 290.0, 35.0 ],
-					"presentation_linecount" : 2,
 					"text" : "< Defines a cutoff boundary in binary translation. \nOver 0.5 may introduce more randomness/distortion."
 				}
 
@@ -192,8 +190,8 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 30.0, 120.0, 576.0, 38.0 ],
-					"text" : "A Max object for diffusion-based pattern generation and data manipulation. Processes input from the matrix UI and supports creative, experimental workflows."
+					"patching_rect" : [ 30.0, 120.0, 491.0, 38.0 ],
+					"text" : "A Max object for pattern generation based on a custom diffusion model, able to create variations of incoming drum sequences that preserves original musical features."
 				}
 
 			}
@@ -405,7 +403,7 @@
 
 							}
  ],
-						"originid" : "pat-8"
+						"originid" : "pat-44"
 					}
 ,
 					"patching_rect" : [ 657.0, 459.0, 61.0, 22.0 ],
@@ -582,7 +580,7 @@
 
 							}
  ],
-						"originid" : "pat-10"
+						"originid" : "pat-46"
 					}
 ,
 					"patching_rect" : [ 451.0, 399.0, 61.0, 22.0 ],
@@ -1225,7 +1223,7 @@
 
 							}
  ],
-						"originid" : "pat-12"
+						"originid" : "pat-48"
 					}
 ,
 					"patching_rect" : [ 451.0, 338.0, 114.0, 22.0 ],
@@ -1633,7 +1631,7 @@
 
 			}
  ],
-		"originid" : "pat-6",
+		"originid" : "pat-42",
 		"parameters" : 		{
 			"obj-10" : [ "number[1]", "number[1]", 0 ],
 			"obj-125" : [ "live.grid[5]", "live.grid", 0 ],
