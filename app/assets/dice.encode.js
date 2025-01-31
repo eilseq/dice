@@ -11,6 +11,8 @@ function dictionary(dictName) {
   const notesToRemove = new Array();
 
   dict.get("notes").forEach(function (note, index) {
+    note.remove("note_id");
+
     const x = note.get("start_time") * DICE_TIME_SIGNATURE[0];
     const y = note.get("pitch") - ABLETON_DRUM_RACK_INITIAL_PITCH;
 
