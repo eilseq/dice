@@ -43,3 +43,6 @@ Tips for Creative Use
 -> Use Seed to explore multiple transformations of the same input.
 -> Apply Dice transformations multiple times for evolving patterns.
 -> Combine with other MIDI tools for layered and complex sequences.
+
+EILSEQ - eilseq.com
+@ All Rights Reserved
