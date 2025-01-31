@@ -26,11 +26,45 @@ end
 [env]
 MAX_PACKAGE_NAME = "dice"
 
-[tasks.dice]
+[tasks.dice-external]
 dependencies = ["package"]
 script_runner = "@shell"
 script = [
   '''
     cp "assets/${MAX_PACKAGE_NAME}.maxhelp" "target/${TARGET_TRIPLE}/${PROFILE_DIR}"
+  ''',
+]
+
+[tasks.dice-m4l]
+dependencies = ["package-all"]
+script_runner = "@shell"
+script = [
+  '''
+    mkdir -p "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/Ableton Project Info"
+    cp "assets/${MAX_PACKAGE_NAME}.als" "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}"
+
+    rm -rf "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/MIDI Tools"
+    mkdir "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/MIDI Tools"
+    mkdir "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/MIDI Tools/Max Transformations"
+
+    mv -f "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/externals/${MAX_PACKAGE_NAME}.mxo" "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/MIDI Tools/Max Transformations"
+    mv -f "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/externals/${MAX_PACKAGE_NAME}.mxe64" "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/MIDI Tools/Max Transformations"
+    rm -rf "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/externals"
+    
+    cp -f "assets/${MAX_PACKAGE_NAME}.amxd" "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/MIDI Tools/Max Transformations"
+    mv -f "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/MIDI Tools/Max Transformations/dice.amxd" "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/MIDI Tools/Max Transformations/Dice.amxd"
+
+    cp -f "assets/${MAX_PACKAGE_NAME}.encode.js" "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/MIDI Tools/Max Transformations"
+    cp -f "assets/${MAX_PACKAGE_NAME}.decode.js" "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/MIDI Tools/Max Transformations"
+    cp -f "assets/${MAX_PACKAGE_NAME}.maxhelp" "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/MIDI Tools/Max Transformations"
+
+    rm -rf "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/${MAX_PACKAGE_NAME} Lessons"
+    mkdir "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/${MAX_PACKAGE_NAME} Lessons"
+    
+    cp -f "assets/${MAX_PACKAGE_NAME}.png" "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/${MAX_PACKAGE_NAME} Lessons/dice.png"
+    cp -f "assets/${MAX_PACKAGE_NAME}.txt" "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}/${MAX_PACKAGE_NAME} Lessons/LessonsEN.txt"
+
+    rm -rf "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}.zip"
+    zip -r "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}.zip" "target/${PROFILE_DIR}/${MAX_PACKAGE_NAME}"
   ''',
 ]

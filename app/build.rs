@@ -12,7 +12,7 @@ fn main() {
         .unwrap_or_else(|_| project_path + "/target/debug/default_model.onnx");
 
     // Create the dummy file if using the default path and it doesn't already exist
-    if model_path == "target/debug/default_model.onnx" {
+    if model_path.contains("target/debug/default_model.onnx") {
         let path = Path::new(&model_path);
         if !path.exists() {
             fs::write(path, "dummy model content").expect("Failed to create dummy ONNX model");

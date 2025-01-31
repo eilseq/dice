@@ -33,15 +33,22 @@ This folder contains the source code for the **Dice** Max external, which enable
    cd dice/app
    ```
 
-2. **Build the External**:
+2. **Build Max External**:
    Use the path to the ONNX model to build the Max external:
 
    ```bash
-   ONNX_MODEL_PATH="path_to_your_onnx_model.onnx" cargo make dice
+   ONNX_MODEL_PATH="path_to_your_onnx_model.onnx" cargo make dice-external
    ```
 
 3. **Install the External in Max**:
    Copy the built `dice` external to your Max `externals` folder or load it directly in your Max patch.
+
+4. **QA Suite - Build MaxForLive Device**:
+   Use the path to the ONNX model to build the MaxForLive Device with QA Suite (Ableton Live Set):
+
+   ```bash
+   ONNX_MODEL_PATH="path_to_your_onnx_model.onnx" cargo make dice-m4l
+   ```
 
 ---
 
