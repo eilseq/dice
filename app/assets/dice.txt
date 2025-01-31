@@ -1,0 +1,45 @@
+$Page Dice
+
+*Dice - Diffusion Based MIDI Transformer*  
+
+Dice is a MIDI transformation tool that generates new rhythmic patterns by modifying selected MIDI notes. 
+
+Live's Clip View -> Transform -> Dice
+
+dice.png
+
+It embeds a custom diffusion model crafted process selected MIDI notes in a 16x16 grid, applying controlled reshaping of the pattern structure based on user-defined parameters. The result is a transformed MIDI sequence that preserves original music features and style.
+
+How It Works
+
+-> Select the MIDI notes you want to transform.Dice only affects selected notes in a clip. 
+-> The device processes the MIDI steps starting from C1 in the first bar.
+-> The transformation is based on a 16x16 time-step matrix, where each step represents a note in a structured grid.
+-> The output can be tweaked using the Noise, Seed, and Threshold parameters.
+
+Parameters
+
+-> Noise (0.0 – 1.0): Controls the amount of randomness added to the input. Higher values introduce more variation.
+-> Seed (Integer): Changes the transformation outcome for the same input. Each seed generates a unique variation.
+-> Threshold (0.0 – 1.0): Sets the density of the output. Lower values retain more notes, while higher values filter out less prominent ones.
+
+Using Dice
+
+1. Select the MIDI notes in your clip that you want to transform.
+2. Adjust Noise, Seed, and Threshold to shape the transformation.
+3. Click Transform to generate a new pattern.
+4. Iterate and tweak parameters to explore alternative patterns.
+
+Installation
+
+The transformation patch is already available in this Live set. To install Dice globally in your Ableton setup, move the Max Transformations files into:
+
+User Library -> Midi Tools -> Max Transformations
+
+This makes the device available in Live’s MIDI Transform section for easy access.
+
+Tips for Creative Use
+
+-> Use Seed to explore multiple transformations of the same input.
+-> Apply Dice transformations multiple times for evolving patterns.
+-> Combine with other MIDI tools for layered and complex sequences.
